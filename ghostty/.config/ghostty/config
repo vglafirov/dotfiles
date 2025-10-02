@@ -1,0 +1,18 @@
+# Font family
+font-family = "JetBrains Mono"
+font-feature = liga
+font-feature = calt
+
+theme = catppuccin-mocha.conf
+font-size = 16
+cursor-style = "block"
+shell-integration-features = no-cursor
+background-blur-radius = 20
+mouse-hide-while-typing = true
+window-decoration = true
+# keybind = global:cmd+/=toggle_quick_terminal
+macos-option-as-alt = true
+background-opacity = 0.8
+background-blur-radius = 20 
+shell-integration = zsh
+copy-on-select = clipboard

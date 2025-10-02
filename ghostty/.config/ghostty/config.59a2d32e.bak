@@ -1,0 +1,9 @@
+theme = catppuccin-mocha
+font-size = 15
+font-family = "Space Mono for Powerline"
+cursor-style = "block"
+shell-integration-features = no-cursor,title
+background-opacity = 0.8
+background-blur-radius = 20
+shell-integration = zsh
+copy-on-select = clipboard
