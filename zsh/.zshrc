@@ -146,7 +146,7 @@ export GNUPGHOME=${GNUPGHOME:-$HOME/.gnupg}
 #export SSH_AUTH_SOCK=$HOME/.gnupg/S.gpg-agent.ssh
 
 # export SSH_AUTH_SOCK="$(brew --prefix)/var/run/yubikey-agent.sock"
-source /Users/vglafirov/.config/op/plugins.sh
+source ~/.config/op/plugins.sh
 
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
