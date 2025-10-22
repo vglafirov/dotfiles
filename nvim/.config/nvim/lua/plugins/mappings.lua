@@ -125,8 +125,6 @@ return {
           -- this is useful for naming menus
           ["<Leader>b"] = { desc = "Buffers" },
           ["<Leader>a"] = { desc = "AI" },
-          -- quick save
-          ["<C-s>"] = { ":w!<cr>", desc = "Save File" }, -- change description but the same command
         },
         t = {
           ["<Esc>"] = { "<C-\\><C-n>", desc = "Exit terminal mode" },
