@@ -12,7 +12,19 @@ return {
     event = "BufRead",
     config = function() require("lsp_signature").setup() end,
   },
-
+  {
+    "anuvyklack/windows.nvim",
+    dependencies = {
+      "anuvyklack/middleclass",
+      "anuvyklack/animation.nvim",
+    },
+    config = function()
+      vim.o.winwidth = 1
+      vim.o.winminwidth = 1
+      vim.o.equalalways = false
+      require("windows").setup()
+    end,
+  },
   {
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
@@ -154,9 +166,9 @@ return {
     lazy = false,
     version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
     opts = {
-      provider = "litellm_gemini_pro",
-      cursor_applying_provider = "litellm_gemini_pro",
-      auto_suggestions_provider = "litellm_gemini_pro",
+      provider = "claude",
+      cursor_applying_provider = "claude",
+      auto_suggestions_provider = "claude",
       -- rag_service = {
       --   enabled = true, -- Enables the RAG service
       --   host_mount = "/Users/vglafirov/workspace/ai/trading-platform/",
@@ -199,6 +211,12 @@ return {
           api_key_name = "LITELLM_API_KEY",
           model = "gpt-5-codex",
         },
+        litellm_claude_claude_haiku_4_5 = {
+          __inherited_from = "claude",
+          endpoint = "https://llm.vglafirov.com/v1/",
+          api_key_name = "LITELLM_API_KEY",
+          model = "claude-haiku-4-5",
+        },
         ollama = {
           api_key_name = "",
           endpoint = "http://192.168.1.55:11434",
@@ -217,7 +235,7 @@ return {
           api_key_name = "LITELLM_API_KEY",
           endpoint = "https://llm.vglafirov.com",
           timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-          model = "claude-sonnet-4-5",
+          model = "claude-haiku-4-5",
           extra_request_body = {
             max_tokens = 64000,
           },
