@@ -65,29 +65,36 @@ return {
   -- == Examples of Overriding Plugins ==
   --
   {
-    "coffebar/neovim-project",
-    opts = {
-      projects = { -- define project roots
-        "~/workspace/*",
-        "~/workspace/ai/*",
-        "~/workspace/gitlab/*",
-        "~/workspace/gitlab/dedicated/*",
-        "~/workspace/gitlab/k8s-workloads/*",
-        "~/.config/nvim/",
-      },
-    },
-    init = function()
-      -- enable saving the state of plugins in the session
-      vim.opt.sessionoptions:append "globals" -- save global variables that start with an uppercase letter and contain at least one lowercase letter.
-    end,
+    "nvim-telescope/telescope-project.nvim",
     dependencies = {
-      { "nvim-lua/plenary.nvim" },
-      { "nvim-telescope/telescope.nvim", tag = "0.1.4" },
-      { "Shatur/neovim-session-manager" },
+      "nvim-telescope/telescope.nvim",
     },
-    lazy = false,
-    priority = 100,
   },
+
+  -- {
+  --   "coffebar/neovim-project",
+  --   opts = {
+  --     projects = { -- define project roots
+  --       "~/workspace/*",
+  --       "~/workspace/ai/*",
+  --       "~/workspace/gitlab/*",
+  --       "~/workspace/gitlab/dedicated/*",
+  --       "~/workspace/gitlab/k8s-workloads/*",
+  --       "~/.config/nvim/",
+  --     },
+  --   },
+  --   init = function()
+  --     -- enable saving the state of plugins in the session
+  --     vim.opt.sessionoptions:append "globals" -- save global variables that start with an uppercase letter and contain at least one lowercase letter.
+  --   end,
+  --   dependencies = {
+  --     { "nvim-lua/plenary.nvim" },
+  --     { "nvim-telescope/telescope.nvim", tag = "0.1.4" },
+  --     { "Shatur/neovim-session-manager" },
+  --   },
+  --   lazy = false,
+  --   priority = 100,
+  -- },
   {
     "nvim-telescope/telescope.nvim",
     tag = "0.1.8",
@@ -100,6 +107,18 @@ return {
     },
     opts = {
       extensions = {
+        project = {
+          base_dirs = {
+            "~/workspace/gitlab",
+            "~/dotfiles/",
+          },
+          sync_with_nvim_tree = true,
+          hidden_files = true,
+          on_project_selected = function(prompt_bufnr)
+            local project_actions = require "telescope._extensions.project.actions"
+            project_actions.change_working_directory(prompt_bufnr, false)
+          end,
+        },
         fzf = {},
         cmdline = {
           -- Adjust telescope picker size and layout

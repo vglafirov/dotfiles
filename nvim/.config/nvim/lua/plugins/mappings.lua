@@ -65,13 +65,22 @@ return {
           -- mappings seen under group name "Buffer"
           [","] = { ":", desc = "enter command mode" },
           ["<Leader>gi"] = { "<cmd>Neogit kind=split<cr>", desc = "Open Neogit" },
-          ["<leader>fp"] = { "<cmd>Telescope neovim-project discover<cr>", desc = "Open projects" },
+          -- ["<leader>fp"] = { "<cmd>Telescope neovim-project discover<cr>", desc = "Open projects" },
           ["<leader>fu"] = { "<cmd>Telescope undo<cr>", desc = "Open undo history" },
           ["<leader>fd"] = { "<cmd>Telescope dir live_grep<cr>", desc = "Grep in current directory" },
           ["<leader>cc"] = { "<cmd>Telescope neoclip a extra=star,plus,b<cr>", desc = "Open clip manager" },
           ["<leader>ld"] = {
             function() require("telescope.builtin").lsp_definitions() end,
             desc = "Jump to definition",
+          },
+          ["<leader>fp"] = {
+            function()
+              require("telescope").extensions.project.project {
+                display_type = "full",
+                hide_workspace = true,
+              }
+            end,
+            desc = "Open project",
           },
 
           ["<leader>lr"] = {
@@ -82,8 +91,8 @@ return {
           ["<S-Tab>"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
           ["<Leader>T"] = { ":tabnew<CR>", desc = "Open new tab" },
           ["<Leader>D"] = { ":tabclose<CR>", desc = "Close current tab" },
-          ["<M-N>"] = { ":tabnext<CR>", desc = "Next tab" },
-          ["<M-P>"] = { ":tabprevious<CR>", desc = "Previous tab" },
+          ["<C-N>"] = { ":tabnext<CR>", desc = "Next tab" },
+          ["<C-P>"] = { ":tabprevious<CR>", desc = "Previous tab" },
           ["<M-K>"] = { ":resize +1<CR>", desc = "Resize Up" },
           ["<M-J>"] = { ":resize -1<CR>", desc = "Resize Down" },
           ["<M-L>"] = { ":vertical resize -1<CR>", desc = "Resize Left" },
@@ -115,6 +124,7 @@ return {
           -- tables with just a `desc` key will be registered with which-key if it's installed
           -- this is useful for naming menus
           ["<Leader>b"] = { desc = "Buffers" },
+          ["<Leader>a"] = { desc = "AI" },
           -- quick save
           ["<C-s>"] = { ":w!<cr>", desc = "Save File" }, -- change description but the same command
         },
