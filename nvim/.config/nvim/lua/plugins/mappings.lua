@@ -110,7 +110,7 @@ return {
           ["<S-Tab>"] = { function() require("astrocore.buffer").nav(-vim.v.count1) end, desc = "Previous buffer" },
           ["<Leader>T"] = { ":tabnew<CR>", desc = "Open new tab" },
           ["<Leader>D"] = { ":tabclose<CR>", desc = "Close current tab" },
-          ["<Leader>zz"] = { ":WindowsMaximize<CR>", desc = "Maximize window" },
+          ["<Leader>zf"] = { ":WindowsMaximize<CR>", desc = "Maximize window" },
           ["<Leader>zv"] = { ":WindowsMaximizeVertically<CR>", desc = "Maximize window vertically" },
           ["<Leader>zh"] = { ":WindowsMaximizeHorizontally<CR>", desc = "Maximize window horizontally" },
           ["<C-N>"] = { ":tabnext<CR>", desc = "Next tab" },

@@ -82,31 +82,6 @@ return {
       "nvim-telescope/telescope.nvim",
     },
   },
-
-  -- {
-  --   "coffebar/neovim-project",
-  --   opts = {
-  --     projects = { -- define project roots
-  --       "~/workspace/*",
-  --       "~/workspace/ai/*",
-  --       "~/workspace/gitlab/*",
-  --       "~/workspace/gitlab/dedicated/*",
-  --       "~/workspace/gitlab/k8s-workloads/*",
-  --       "~/.config/nvim/",
-  --     },
-  --   },
-  --   init = function()
-  --     -- enable saving the state of plugins in the session
-  --     vim.opt.sessionoptions:append "globals" -- save global variables that start with an uppercase letter and contain at least one lowercase letter.
-  --   end,
-  --   dependencies = {
-  --     { "nvim-lua/plenary.nvim" },
-  --     { "nvim-telescope/telescope.nvim", tag = "0.1.4" },
-  --     { "Shatur/neovim-session-manager" },
-  --   },
-  --   lazy = false,
-  --   priority = 100,
-  -- },
   {
     "nvim-telescope/telescope.nvim",
     tag = "0.1.8",
@@ -121,7 +96,7 @@ return {
       extensions = {
         project = {
           base_dirs = {
-            "~/workspace/gitlab",
+            "~/workspace/",
             "~/dotfiles/",
           },
           sync_with_nvim_tree = true,
@@ -294,41 +269,25 @@ return {
       },
     },
   },
-
-  -- disable Gitlab LSP due to https://gitlab.com/gitlab-org/editor-extensions/gitlab.vim/-/issues/108
-  -- {
-  --   "git@gitlab.com:gitlab-org/editor-extensions/gitlab.vim.git",
-  --   commit = "cf304d18ba352e7bf914af978f4c1aab7ffb7e49",
-  --   lazy = false,
-  --   -- Activate when a file is created/opened
-  --   event = { "BufReadPre", "BufNewFile" },
-  --   -- Activate when a supported filetype is open
-  --   ft = { "go", "javascript", "python", "ruby" },
-  --   cond = function()
-  --     -- Only activate if token is present in environment variable.
-  --     -- Remove this line to use the interactive workflow.
-  --     return vim.env.GITLAB_TOKEN ~= nil and vim.env.GITLAB_TOKEN ~= ""
-  --   end,
-  --   opts = {
-  --     statusline = {
-  --       -- Hook into the built-in statusline to indicate the status
-  --       -- of the GitLab Duo Code Suggestions integration
-  --       enabled = false,
-  --     },
-  --   },
-  -- },
-  -- {
-  --   "rest-nvim/rest.nvim",
-  -- },
-  -- {
-  --   "Al0den/notion.nvim",
-  --   lazy = false, --Should work when lazy loaded, not tested
-  --   dependencies = {
-  --     "nvim-telescope/telescope.nvim",
-  --     "nvim-lua/plenary.nvim",
-  --   },
-  --   config = function() require("notion").setup() end,
-  -- },
+  {
+    "https://gitlab.com/gitlab-org/editor-extensions/gitlab.vim.git",
+    -- Activate when a file is created/opened
+    event = { "BufReadPre", "BufNewFile" },
+    -- Activate when a supported filetype is open
+    ft = { "go", "javascript", "python", "ruby" },
+    cond = function()
+      -- Only activate if token is present in environment variable.
+      -- Remove this line to use the interactive workflow.
+      return vim.env.GITLAB_TOKEN ~= nil and vim.env.GITLAB_TOKEN ~= ""
+    end,
+    opts = {
+      statusline = {
+        -- Hook into the built-in statusline to indicate the status
+        -- of the GitLab Duo Code Suggestions integration
+        enabled = true,
+      },
+    },
+  },
   {
     "NeogitOrg/neogit",
     dependencies = {
@@ -444,6 +403,50 @@ return {
       -- add more custom luasnip configuration such as filetype extend or custom snippets
       local luasnip = require "luasnip"
       luasnip.filetype_extend("javascript", { "javascriptreact" })
+    end,
+  },
+
+  {
+    "mikavilpas/yazi.nvim",
+    version = "*", -- use the latest stable version
+    event = "VeryLazy",
+    dependencies = {
+      { "nvim-lua/plenary.nvim", lazy = true },
+    },
+    keys = {
+      -- 👇 in this section, choose your own keymappings!
+      {
+        "<leader>y",
+        mode = { "n", "v" },
+        "<cmd>Yazi<cr>",
+        desc = "Open yazi at the current file",
+      },
+      {
+        -- Open in the current working directory
+        "<leader>yd",
+        "<cmd>Yazi cwd<cr>",
+        desc = "Open the file manager in nvim's working directory",
+      },
+      {
+        "<leader>yt",
+        "<cmd>Yazi toggle<cr>",
+        desc = "Resume the last yazi session",
+      },
+    },
+    ---@type YaziConfig | {}
+    opts = {
+      -- if you want to open yazi instead of netrw, see below for more info
+      open_for_directories = true,
+      keymaps = {
+        show_help = "<f1>",
+      },
+    },
+    -- 👇 if you use `open_for_directories=true`, this is recommended
+    init = function()
+      -- mark netrw as loaded so it's not loaded at all.
+      --
+      -- More details: https://github.com/mikavilpas/yazi.nvim/issues/802
+      vim.g.loaded_netrwPlugin = 1
     end,
   },
 
