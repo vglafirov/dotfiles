@@ -51,25 +51,6 @@ local function close_current_terminal()
   end
 end
 
-local function clear_terminal()
-  local buf_id = vim.api.nvim_get_current_buf()
-  local buf_name = vim.api.nvim_buf_get_name(buf_id)
-
-  -- Check if the current buffer is a terminal
-  if buf_name:match "term://" then
-    -- Get the terminal job ID
-    local job_id = vim.b.terminal_job_id
-    if job_id then
-      -- Send Ctrl-l (clear) directly to the terminal process
-      vim.fn.chansend(job_id, "\x0c") -- \x0c is Ctrl-l
-    else
-      vim.notify("No terminal job found!", vim.log.levels.WARN)
-    end
-  else
-    vim.notify("Not a terminal buffer!", vim.log.levels.WARN)
-  end
-end
-
 return {
   { "echasnovski/mini.icons", version = "*" },
   { "echasnovski/mini.nvim", version = "*" },
@@ -151,23 +132,7 @@ return {
         },
         t = {
           ["<Esc>"] = { "<C-\\><C-n>", desc = "Exit terminal mode" },
-          -- Clear terminal window using the custom function for more reliable behavior
-          ["<C-l>"] = {
-            function() clear_terminal() end,
-            desc = "Clean terminal window",
-          },
           -- Toggle the current terminal using the custom function
-          ["<Esc><Esc>"] = {
-            function() toggle_current_terminal() end,
-            desc = "Toggle current terminal",
-          },
-          ["<Esc>q"] = {
-            function() close_current_terminal() end,
-            desc = "Close current terminal",
-          },
-
-          -- setting a mapping to false will disable it
-          -- ["<esc>"] = false,
         },
       },
     },
