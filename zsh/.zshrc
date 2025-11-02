@@ -187,6 +187,8 @@ export K9S_CONFIG_DIR=~/.config/k9s
 
 export DOCKER_HOST=unix:///Users/vglafirov/.colima/default/docker.sock
 
+export GITLAB_DOCKER_SOCKET="$HOME/.colima/default/docker.sock"
+
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/vglafirov/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/vglafirov/google-cloud-sdk/path.zsh.inc'; fi
@@ -254,5 +256,7 @@ function y() {
 	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
 	rm -f -- "$tmp"
 }
+
+
 
 eval "$(atuin init zsh)"

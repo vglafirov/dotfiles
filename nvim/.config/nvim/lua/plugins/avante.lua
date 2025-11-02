@@ -1,13 +1,15 @@
 return {
   {
-    "yetone/avante.nvim",
+    "vglafirov/avante.nvim",
     event = "VeryLazy",
     lazy = false,
     version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
     opts = {
+      debug = true,
+      -- provider = "gitlab_duo",
       provider = "claude",
-      cursor_applying_provider = "claude",
-      auto_suggestions_provider = "claude",
+      -- cursor_applying_provider = "gitlab_duo",
+      -- auto_suggestions_provider = "gitlab_duo",
       -- rag_service = {
       --   enabled = true, -- Enables the RAG service
       --   host_mount = "/Users/vglafirov/workspace/ai/trading-platform/",
@@ -15,9 +17,8 @@ return {
       --   endpoint = "https://llm.vglafirov.com/v1/",
       -- },
       providers = {
-        gitlab = {
-          chat_model = "claude-3-5-sonnet-20241022",
-          code_suggestion_model = "claude-3-5-sonnet-20241022",
+        gitlab_duo = {
+          model = "claude-4-5-sonnet",
         },
         groq = { -- define groq provider
           __inherited_from = "openai",
@@ -50,11 +51,17 @@ return {
           api_key_name = "LITELLM_API_KEY",
           model = "gpt-5-codex",
         },
-        litellm_claude_claude_haiku_4_5 = {
+        litellm_claude_haiku_4_5 = {
           __inherited_from = "claude",
           endpoint = "https://llm.vglafirov.com/v1/",
           api_key_name = "LITELLM_API_KEY",
           model = "claude-haiku-4-5",
+        },
+        litellm_claude_sonnet_4_5 = {
+          __inherited_from = "claude",
+          endpoint = "https://llm.vglafirov.com/v1/",
+          api_key_name = "LITELLM_API_KEY",
+          model = "claude-sonnet-4-5",
         },
         ollama = {
           api_key_name = "",
@@ -74,7 +81,7 @@ return {
           api_key_name = "LITELLM_API_KEY",
           endpoint = "https://llm.vglafirov.com",
           timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-          model = "claude-haiku-4-5",
+          model = "claude-sonnet-4-5",
           extra_request_body = {
             max_tokens = 64000,
           },
