@@ -5,8 +5,10 @@ return {
       -- Define your project directories with glob patterns
       projects = {
         "~/dotfiles/",
+        "~/notes/",
         "~/workspace/*",
         "~/workspace/gitlab/*",
+        "~/workspace/gitlab/gdk/gitlab/",
       },
 
       -- Choose your picker: "telescope", "fzf-lua", or "snacks"
@@ -21,8 +23,8 @@ return {
       dashboard_mode = false,
 
       -- Patterns for project root detection
-      -- detection_methods = { "pattern", "lsp" }, -- optional
-      -- patterns = { ".git", "Makefile", "package.json" }, -- optional
+      detection_methods = { "pattern", "lsp" }, -- optional
+      patterns = { ".git" },
     },
 
     init = function()

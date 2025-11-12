@@ -5,7 +5,7 @@ return {
     lazy = false,
     version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
     opts = {
-      debug = true,
+      debug = false,
       -- provider = "gitlab_duo",
       provider = "claude",
       -- cursor_applying_provider = "gitlab_duo",
@@ -81,7 +81,7 @@ return {
           api_key_name = "LITELLM_API_KEY",
           endpoint = "https://llm.vglafirov.com",
           timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-          model = "claude-sonnet-4-5",
+          model = "claude-haiku-4-5",
           extra_request_body = {
             max_tokens = 64000,
           },

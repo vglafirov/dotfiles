@@ -37,3 +37,5 @@ end, { desc = "opencode half page up" })
 vim.keymap.set({ "n", "x" }, "<leader>od", function()
   require("opencode").command("session.half.page.down")
 end, { desc = "opencode half page down" })
+
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
