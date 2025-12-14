@@ -1,13 +1,25 @@
 return {
   {
-    "vglafirov/avante.nvim",
+    "yetone/avante.nvim",
     event = "VeryLazy",
     lazy = false,
     version = false, -- set this to "*" if you want to always pull the latest change, false to update on release
     opts = {
       debug = false,
+      acp_providers = {
+        ["opencode"] = {
+          command = "opencode",
+          args = { "acp" },
+          env = {
+            GITLAB_TOKEN = os.getenv("GITLAB_TOKEN"),
+          },
+        },
+      },
+      provider = "opencode",
       -- provider = "gitlab_duo",
-      provider = "claude",
+      -- provider = "claude",
+      -- provider = "litellm_gemini_pro",
+      -- provider = "gemini",
       -- cursor_applying_provider = "gitlab_duo",
       -- auto_suggestions_provider = "gitlab_duo",
       -- rag_service = {
@@ -17,9 +29,6 @@ return {
       --   endpoint = "https://llm.vglafirov.com/v1/",
       -- },
       providers = {
-        gitlab_duo = {
-          model = "claude-4-5-sonnet",
-        },
         groq = { -- define groq provider
           __inherited_from = "openai",
           api_key_name = "GROQ_API_KEY",
@@ -33,7 +42,7 @@ return {
           __inherited_from = "openai",
           endpoint = "https://llm.vglafirov.com/v1/",
           api_key_name = "LITELLM_API_KEY",
-          model = "gemini/gemini-2.5-pro",
+          model = "gemini/gemini-3-pro-preview",
           extra_request_body = {
             max_tokens = 1048573, -- remember to increase this value, otherwise it will stop generating halfway
             max_completion_tokens = 65536,
@@ -70,7 +79,7 @@ return {
           -- disable_tools = true, -- Open-source models often do not support tools.
         },
         gemini = {
-          model = "gemini-2.5-pro", -- your desired model (or use gpt-4o, etc.)
+          model = "gemini-3-pro-preview", -- your desired model (or use gpt-4o, etc.)
           timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
           extra_request_body = {
             temperature = 0,
@@ -81,7 +90,7 @@ return {
           api_key_name = "LITELLM_API_KEY",
           endpoint = "https://llm.vglafirov.com",
           timeout = 30000, -- Timeout in milliseconds, increase this for reasoning models
-          model = "claude-haiku-4-5",
+          model = "claude-sonnet-4-5",
           extra_request_body = {
             max_tokens = 64000,
           },

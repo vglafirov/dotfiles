@@ -129,6 +129,8 @@ alias ktx="kubectx"
 alias kns="kubens"
 alias nx="nix-shell --run $SHELL"
 
+alias lg="lazygit"
+
 ff () {
   aerospace list-windows --all | fzf --bind 'enter:execute(bash -c "aerospace focus --window-id {2}")+abort'
 }
@@ -202,7 +204,8 @@ sec() {
   
   export NOTION_SECRET=$(op read "op://private/notion-secret/credential")
   export NOTION_API_KEY=$(op read "op://private/notion-api-key/credential")
-  export GITLAB_TOKEN=$(op read "op://private/gitlab-token/credential")
+  export GITLAB_TOKEN=$(op read "op://private/gitlab-api-token/credential")
+  export GITLAB_API_TOKEN=$(op read "op://private/gitlab-api-token/credential")
   export GITLAB_VIM_URL=https://gitlab.com
   export RELEASE_BOT_OPS_TOKEN=$(op read "op://private/release-bot-ops-token/credential")
   export OPENAI_API_KEY=$(op read "op://private/openapi-key/password") 
@@ -211,6 +214,10 @@ sec() {
   export GEMINI_API_KEY=$(op read "op://private/gemini-api/credential") 
   export GROQ_API_KEY=$(op read "op://private/groq-api/credential") 
   export LITELLM_API_KEY=$(op read "op://private/litellm-api/credential") 
+  export GITLAB_OAUTH_CLIENT_ID=$(op read "op://private/opencode-gitlab-auth-plugin/username") 
+
+  eval "$(op signin --account gitlab)"
+  export GRAFANA_SERVICE_ACCOUNT_TOKEN=$(op read "op://Engineering/Grafana playground API token/Tokens/developer-playground-key API Key")
 }
 
 export OLLAMA_HOST=0.0.0.0
@@ -240,8 +247,7 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 export SEARXNG_API_URL="https://search.vglafirov.com/search"
 
-# Added by Windsurf
-export PATH="/Users/vglafirov/.codeium/windsurf/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 
 # Added by GDK bootstrap
 eval "$(/opt/homebrew/bin/mise activate zsh)"
@@ -260,3 +266,20 @@ function y() {
 }
 
 eval "$(atuin init zsh)"
+
+# bun completions
+[ -s "/Users/vglafirov/.bun/_bun" ] && source "/Users/vglafirov/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/vglafirov/.antigravity/antigravity/bin:$PATH"
+
+# Added by GitLab Knowledge Graph installer
+export PATH="$HOME/.local/bin:$PATH"
