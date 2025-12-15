@@ -23,18 +23,18 @@
 # timezone = "local"
 
 ## enable or disable automatic sync
-# auto_sync = true
+auto_sync = true
 
 ## enable or disable automatic update checks
 # update_check = true
 
 ## address of the sync server
-# sync_address = "https://api.atuin.sh"
+sync_address = "https://api.atuin.sh"
 
 ## how often to sync history. note that this is only triggered when a command
 ## is ran, so sync intervals may well be longer
 ## set it to 0 to sync after every command
-# sync_frequency = "10m"
+sync_frequency = "10m"
 
 ## which search mode to use
 ## possible values: prefix, fulltext, fuzzy, skim
@@ -183,26 +183,26 @@ enter_accept = true
 [stats]
 ## Set commands where we should consider the subcommand for statistics. Eg, kubectl get vs just kubectl
 common_subcommands = [
-#   "apt",
-#   "cargo",
-#   "composer",
-#   "dnf",
+  #   "apt",
+  #   "cargo",
+  #   "composer",
+  #   "dnf",
   "docker",
   "git",
   "go",
-#   "ip",
-#   "jj",
+  #   "ip",
+  #   "jj",
   "kubectl",
-#   "nix",
-#   "nmcli",
-#   "npm",
-#   "pecl",
-#   "pnpm",
-#   "podman",
-#   "port",
-#   "systemctl",
-#   "tmux",
-#   "yarn",
+  #   "nix",
+  #   "nmcli",
+  #   "npm",
+  #   "pecl",
+  #   "pnpm",
+  #   "podman",
+  #   "port",
+  #   "systemctl",
+  #   "tmux",
+  #   "yarn",
 ]
 
 ## Set commands that should be totally stripped and ignored from stats

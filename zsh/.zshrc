@@ -194,9 +194,6 @@ export DOCKER_HOST=unix:///Users/vglafirov/.colima/default/docker.sock
 export GITLAB_DOCKER_SOCKET="$HOME/.colima/default/docker.sock"
 
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/vglafirov/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/vglafirov/google-cloud-sdk/path.zsh.inc'; fi
-
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 
 sec() {
@@ -222,24 +219,43 @@ sec() {
 
 export OLLAMA_HOST=0.0.0.0
 
-
 function gtx() {
   local config=$(gcloud config configurations list --format="value(name)" | fzf --height 40% --reverse --header="Select gcloud configuration")
   
   if [[ -n "$config" ]]; then
     gcloud config configurations activate "$config"
+    
+    # Get the account and project from the activated configuration
+    local account=$(gcloud config get-value account)
+    local project=$(gcloud config get-value project)
+    
     echo "Switched to configuration: $config"
+    echo "Account: $account"
+    echo "Project: $project"
+    
+    # Optional: Auto-refresh GKE credentials if you have a cluster
+    # gcloud container clusters get-credentials CLUSTER_NAME --region=REGION
   fi
 }
 
 function gapp() {
-  local config=$(gcloud auth list --format=json | jq ".[].account" | tr -d "\"" | fzf --height 40% --reverse --header="Select gcloud account")
+  local config=$(gcloud auth list --format=json | jq -r ".[].account" | fzf --height 40% --reverse --header="Select gcloud account")
   
   if [[ -n "$config" ]]; then
-    gcloud auth application-default login $config
+    gcloud config set account "$config"
+    gcloud auth application-default login
     echo "Switched to account: $config"
   fi
 }
+
+# function gapp() {
+#   local config=$(gcloud auth list --format=json | jq ".[].account" | tr -d "\"" | fzf --height 40% --reverse --header="Select gcloud account")
+#
+#   if [[ -n "$config" ]]; then
+#     gcloud auth application-default login $config
+#     echo "Switched to account: $config"
+#   fi
+# }
 
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
@@ -283,3 +299,9 @@ export PATH="/Users/vglafirov/.antigravity/antigravity/bin:$PATH"
 
 # Added by GitLab Knowledge Graph installer
 export PATH="$HOME/.local/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/vglafirov/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/vglafirov/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/vglafirov/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/vglafirov/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
