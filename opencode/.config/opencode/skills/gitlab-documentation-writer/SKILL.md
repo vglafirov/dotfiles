@@ -174,10 +174,25 @@ gitlab_update_merge_request(
    - Get last version tag from git
 
 2. **Collect commits:**
-```bash
-# Get commits since last tag
-git log <last_tag>..HEAD --oneline
 ```
+# Search commits since last release
+gitlab_commit_search(
+  search: "<keywords or date range>",
+  project_id: "<project>",
+  ref: "main",
+  limit: 100
+)
+
+# Or list commits by date
+gitlab_list_commits(
+  project_id: "<project>",
+  ref: "main",
+  since: "<last_release_date>",
+  limit: 100
+)
+```
+
+Using `gitlab_commit_search` allows you to find specific types of commits (e.g., "fix", "feature", "breaking") more efficiently.
 
 3. **Categorize changes:**
    - **Added**: New features, capabilities
@@ -330,6 +345,41 @@ Create a new user.
 - **Badges**: Add CI/CD status, coverage badges
 - **Table of contents**: For long documents
 
+### Reference GitLab Documentation
+
+When writing documentation, search GitLab's official docs for best practices:
+
+```
+gitlab_documentation_search(
+  search: "<topic or feature>",
+  limit: 10
+)
+```
+
+This helps ensure your documentation follows GitLab conventions and includes accurate information about GitLab features.
+
+### Search Existing Documentation
+
+Before creating new documentation, search existing wiki and docs:
+
+```
+# Search wiki content
+gitlab_wiki_blob_search(
+  search: "<topic>",
+  project_id: "<project>",
+  limit: 10
+)
+
+# Search for related documentation files
+gitlab_blob_search(
+  search: "<topic> filename:*.md",
+  project_id: "<project>",
+  limit: 10
+)
+```
+
+This helps avoid duplication and ensures consistency with existing documentation.
+
 ### Maintenance
 
 - **Version documentation**: Keep docs versioned with code
@@ -368,11 +418,30 @@ gitlab_get_file(
 ### Get Commits for Changelog
 
 ```
+# List commits by date range
 gitlab_list_commits(
   project_id: "<project>",
   ref: "main",
   since: "<last_release_date>",
   limit: 100
+)
+
+# Or search commits by keywords
+gitlab_commit_search(
+  search: "fix OR feature OR breaking",
+  project_id: "<project>",
+  limit: 100
+)
+```
+
+### Search for Contributors
+
+When documenting contributors or maintainers:
+
+```
+gitlab_user_search(
+  search: "<name or email>",
+  limit: 20
 )
 ```
 
@@ -383,12 +452,43 @@ gitlab_list_branches(project_id: "<project>")
 # Check if branch exists, create unique name if needed
 ```
 
+## Available Tools
+
+### Core Documentation Tools
+| Tool | Purpose |
+|------|---------|
+| `gitlab_create_commit` | Create/update documentation files |
+| `gitlab_get_file` | Read existing documentation |
+| `gitlab_create_merge_request` | Create MR for documentation changes |
+| `gitlab_update_merge_request` | Update MR with description/labels |
+
+### Commit & History Tools
+| Tool | Purpose |
+|------|---------|
+| `gitlab_list_commits` | List commits for changelog |
+| `gitlab_commit_search` | Search commits by keywords |
+| `gitlab_get_commit` | Get commit details |
+
+### Search Tools
+| Tool | Purpose |
+|------|---------|
+| `gitlab_documentation_search` | Search GitLab official docs |
+| `gitlab_wiki_blob_search` | Search wiki content |
+| `gitlab_blob_search` | Search code/docs in repository |
+| `gitlab_user_search` | Find contributors/maintainers |
+
+### Repository Tools
+| Tool | Purpose |
+|------|---------|
+| `gitlab_list_branches` | List existing branches |
+| `gitlab_list_repository_tree` | Browse repository structure |
+| `gitlab_get_project` | Get project details |
+
 ## Reference Files
 
 - **[references/api_reference.md](references/api_reference.md)** - GitLab API tools for documentation operations
 - **[references/templates.md](references/templates.md)** - Documentation templates for various types
 - **[references/best_practices.md](references/best_practices.md)** - Documentation best practices and guidelines
-- **[references/formats.md](references/formats.md)** - Supported formats and conventions
 
 ## Error Handling
 

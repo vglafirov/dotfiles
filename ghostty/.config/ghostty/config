@@ -16,3 +16,6 @@ background-opacity = 0.8
 background-blur-radius = 20 
 shell-integration = zsh
 copy-on-select = clipboard
+scrollback-limit = 10000000
+clipboard-read = allow
+clipboard-write = allow

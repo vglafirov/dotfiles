@@ -7,16 +7,6 @@
     "opencode-skills",
   ],
   "mcp": {
-    "gitlab": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "mcp-remote",
-        "https://gitlab.com/api/v4/mcp"
-      ],
-      "enabled": true
-    },
     "grafana": {
       "type": "local",
       "command": [
@@ -38,16 +28,6 @@
         "-y",
         "@google-cloud/gcloud-mcp"
       ]
-    },
-    "notion": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "mcp-remote",
-        "https://mcp.notion.com/mcp"
-      ],
-      "enabled": true
     },
     "knowledge-graph": {
       "type": "remote",

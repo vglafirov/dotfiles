@@ -82,6 +82,19 @@ gitlab_list_mr_discussions(project_id: "<project>", mr_iid: <iid>)
 gitlab_get_mr_commits(project_id: "<project>", mr_iid: <iid>)
 ```
 
+**For large MRs with many files:**
+```
+# Use paginated diffs to handle large changesets
+gitlab_list_merge_request_diffs(
+  project_id: "<project>",
+  mr_iid: <iid>,
+  page: 1,
+  per_page: 20
+)
+```
+
+This is more efficient for MRs with hundreds of changed files, allowing you to process diffs in chunks.
+
 **Note:** Use `gitlab_list_mr_discussions` to see threaded conversations with resolution status. Use `gitlab_list_mr_notes` for a flat chronological view of all comments.
 
 ### 3. Analyze Changes
@@ -671,11 +684,43 @@ Focus on:
 - Memory usage
 
 ### Database
+
 - Migration reversibility
 - Query performance (EXPLAIN ANALYZE)
 - Index usage
 - Multi-version compatibility
 - See [references/code_review_guidelines.md](references/code_review_guidelines.md#database-review)
+
+### CI/CD Configuration
+
+When reviewing changes to `.gitlab-ci.yml`:
+
+```
+# Validate CI config changes
+gitlab_lint_ci_config(
+  project_id: "<project>",
+  content: "<new_yaml_content>",
+  dry_run: true,
+  include_jobs: true
+)
+
+# Or validate existing config
+gitlab_lint_existing_ci_config(
+  project_id: "<project>",
+  dry_run: true,
+  include_jobs: true
+)
+```
+
+**Review focus:**
+- YAML syntax correctness
+- Job definitions validity
+- Security of scripts and variables
+- Resource usage (timeouts, artifacts)
+- Dependency management
+- Cache configuration
+
+If validation fails, post a comment with specific errors and suggestions for fixes.
 
 ### Tests
 - Coverage of new code
@@ -707,6 +752,20 @@ Analyze failure patterns:
 - Linting failures → style issues to fix
 - Security scans → potential vulnerabilities
 - Build failures → compilation/dependency issues
+
+### Review Commit Comments
+
+Check for existing comments on commits in the MR:
+
+```
+# For each commit in the MR
+gitlab_get_commit_comments(
+  project_id: "<project>",
+  sha: "<commit_sha>"
+)
+```
+
+This helps identify feedback already provided on specific commits that may be relevant to the overall MR review.
 
 ## Comment Patterns
 
@@ -822,6 +881,7 @@ Then call `gitlab_unresolve_mr_discussion` to reopen the thread.
 |------|---------|
 | `gitlab_get_merge_request` | Get MR details (title, description, state, labels) |
 | `gitlab_get_mr_changes` | Get file diffs |
+| `gitlab_list_merge_request_diffs` | Get paginated diffs for large MRs |
 | `gitlab_get_mr_commits` | Get commit list |
 | `gitlab_update_merge_request` | Update labels, assignees, state |
 
@@ -836,6 +896,11 @@ Then call `gitlab_unresolve_mr_discussion` to reopen the thread.
 | `gitlab_resolve_mr_discussion` | Mark discussion as resolved |
 | `gitlab_unresolve_mr_discussion` | Reopen resolved discussion |
 
+### Commit Tools
+| Tool | Purpose |
+|------|---------|
+| `gitlab_get_commit_comments` | Get all comments on a specific commit |
+
 ### Pipeline & CI Tools
 | Tool | Purpose |
 |------|---------|
@@ -845,6 +910,8 @@ Then call `gitlab_unresolve_mr_discussion` to reopen the thread.
 | `gitlab_get_pipeline_failing_jobs` | Get only failed jobs |
 | `gitlab_get_job_log` | Get job output |
 | `gitlab_retry_job` | Retry failed job |
+| `gitlab_lint_ci_config` | Validate CI/CD YAML configuration |
+| `gitlab_lint_existing_ci_config` | Validate existing .gitlab-ci.yml |
 
 ### Universal Discussion Tools
 | Tool | Purpose |

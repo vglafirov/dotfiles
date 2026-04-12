@@ -53,7 +53,37 @@ Based on user request, identify type:
 | Refactoring, cleanup | `type::maintenance` | Refactoring |
 | Security fix | `type::bug` + `security` | Security Fix |
 
-### 4. Create Branch and Commits (if needed)
+### 4. Validate CI/CD Configuration (if applicable)
+
+If the MR includes changes to `.gitlab-ci.yml`, validate before creating:
+
+```
+# For new CI config content
+gitlab_lint_ci_config(
+  project_id: "<project>",
+  content: "<yaml_content>",
+  dry_run: true,
+  include_jobs: true
+)
+
+# For existing CI config in repo
+gitlab_lint_existing_ci_config(
+  project_id: "<project>",
+  dry_run: true,
+  include_jobs: true
+)
+```
+
+**Validation checks:**
+- YAML syntax correctness
+- Job definitions validity
+- Include statements resolution
+- Variable references
+- Preview jobs that would be created
+
+If validation fails, show errors to user and suggest fixes before proceeding.
+
+### 5. Create Branch and Commits (if needed)
 
 If user doesn't have a branch yet:
 ```
@@ -78,7 +108,7 @@ gitlab_create_commit(
 - Body: explain what/why, wrap at 72 chars, use full issue URLs
 - No emojis
 
-### 5. Create Merge Request
+### 6. Create Merge Request
 
 ```
 gitlab_create_merge_request(
@@ -100,7 +130,7 @@ gitlab_create_merge_request(
 )
 ```
 
-### 6. Update MR with Description and Labels
+### 7. Update MR with Description and Labels
 
 After creation, update with full details:
 ```
@@ -114,7 +144,7 @@ gitlab_update_merge_request(
 )
 ```
 
-### 7. Apply Labels
+### 8. Apply Labels
 
 **Required:**
 - Type label (`type::bug`, `type::feature`, `type::maintenance`)
@@ -201,6 +231,50 @@ Based on content keywords, suggest labels:
 | API, endpoint, REST, GraphQL | `backend` |
 | docs, documentation | `documentation`, `technical writing` |
 
+## Finding Users and Milestones
+
+### Search for Users
+
+When assigning reviewers or assignees:
+
+```
+gitlab_user_search(
+  search: "<name or email>",
+  limit: 10
+)
+```
+
+Returns users matching the search query with username, name, and ID for assignment.
+
+### Search for Milestones
+
+When assigning milestones to MRs:
+
+```
+gitlab_milestone_search(
+  search: "<milestone name>",
+  project_id: "<project>",
+  state: "active",
+  limit: 10
+)
+```
+
+Returns milestones matching the search query with title, dates, and ID.
+
+### Search Commits
+
+When referencing related commits:
+
+```
+gitlab_commit_search(
+  search: "<commit message or SHA>",
+  project_id: "<project>",
+  limit: 10
+)
+```
+
+Returns commits matching the search query for reference in MR description.
+
 ## Cross-Project MR Workflow (Forks)
 
 1. Get upstream project ID:
@@ -223,17 +297,41 @@ Based on content keywords, suggest labels:
 
 ## Available Tools
 
+### Core MR Tools
 | Tool | Purpose |
 |------|---------|
 | `gitlab_create_merge_request` | Create new MR |
 | `gitlab_update_merge_request` | Add description, labels, reviewers |
 | `gitlab_get_merge_request` | Get MR details |
+| `gitlab_list_merge_request_diffs` | Get paginated diffs for large MRs |
+
+### Commit & Branch Tools
+| Tool | Purpose |
+|------|---------|
 | `gitlab_create_commit` | Create branch and commits |
+| `gitlab_list_branches` | List existing branches |
+| `gitlab_commit_search` | Search commits by message/SHA |
+
+### CI/CD Tools
+| Tool | Purpose |
+|------|---------|
+| `gitlab_lint_ci_config` | Validate CI/CD YAML configuration |
+| `gitlab_lint_existing_ci_config` | Validate existing .gitlab-ci.yml |
 | `gitlab_get_mr_pipelines` | Check pipeline status |
 | `gitlab_get_pipeline_failing_jobs` | Get failed jobs |
 | `gitlab_get_job_log` | Get CI job output |
 | `gitlab_retry_job` | Retry failed job |
-| `gitlab_list_branches` | List existing branches |
+
+### Search Tools
+| Tool | Purpose |
+|------|---------|
+| `gitlab_user_search` | Search for users to assign/review |
+| `gitlab_milestone_search` | Search for milestones |
+| `gitlab_commit_search` | Search commits for reference |
+
+### Project Tools
+| Tool | Purpose |
+|------|---------|
 | `gitlab_get_project` | Get project details |
 
 See [references/api_reference.md](references/api_reference.md) for full API details.

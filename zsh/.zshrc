@@ -156,6 +156,11 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+export GOOGLE_APPLICATION_CREDENTIALS=~/.config/gcloud/application_default_credentials.json
+export GOOGLE_CLOUD_PROJECT=vglafirov-bef12636
+export VERTEX_LOCATION=global   # defaults to 'global'
+
+
 VAULT_PROXY_ADDR="socks5://localhost:18200"
 
 eval "$(direnv hook zsh)"
@@ -202,7 +207,6 @@ sec() {
   export NOTION_SECRET=$(op read "op://private/notion-secret/credential")
   export NOTION_API_KEY=$(op read "op://private/notion-api-key/credential")
   export GITLAB_TOKEN=$(op read "op://private/gitlab-api-token/credential")
-  export GITLAB_API_TOKEN=$(op read "op://private/gitlab-api-token/credential")
   export GITLAB_VIM_URL=https://gitlab.com
   export RELEASE_BOT_OPS_TOKEN=$(op read "op://private/release-bot-ops-token/credential")
   export OPENAI_API_KEY=$(op read "op://private/openapi-key/password") 
@@ -212,11 +216,44 @@ sec() {
   export GROQ_API_KEY=$(op read "op://private/groq-api/credential") 
   export LITELLM_API_KEY=$(op read "op://private/litellm-api/credential") 
   export GITLAB_OAUTH_CLIENT_ID=$(op read "op://private/opencode-gitlab-auth-plugin/username") 
+  export HOMEASSISTANT_TOKEN=$(op read "op://private/home-assistant-token/credential") 
 
   eval "$(op signin --account gitlab)"
   export GRAFANA_SERVICE_ACCOUNT_TOKEN=$(op read "op://Engineering/Grafana playground API token/Tokens/developer-playground-key API Key")
+  export OPS_GITLAB_TOKEN=$(op read "op://Employee/ops-gitlab-net-pat/credential")
 }
 
+hotline(){
+  eval "$(op signin --account my)"
+  export HOTLINE_GITLAB_TOKEN=$(op read "op://private/gitlab-hotline-pat/credential")
+}
+
+selfhosted() {
+  export GITLAB_AI_GATEWAY_URL=https://ai-gateway.opencode-self-hosted.release.gke.gitlab.net
+  export GITLAB_INSTANCE_URL=https://gitlab.opencode-self-hosted.release.gke.gitlab.net
+  export GITLAB_OAUTH_CLIENT_ID=aa66aa0ff367e0422a4b45f73754bef9605dddf519859a734e882f7ba2af0d3e
+  eval "$(op signin --account my)"
+  export GITLAB_TOKEN=$(op read "op://private/gitlab-api-token-self-hosted/credential")
+}
+
+staging() {
+  export GITLAB_AI_GATEWAY_URL=https://cloud.staging.gitlab.com
+  export GITLAB_INSTANCE_URL=https://staging.gitlab.com
+  export GITLAB_OAUTH_CLIENT_ID=63b9b9a0654d6abd8a6e624f38eb42668a92ee16345667b2bf9a394050206e17
+  eval "$(op signin --account my)"
+  export GITLAB_TOKEN=$(op read "op://private/gitlab-api-token-staging/credential")
+}
+
+mproxy() {
+ export HTTP_PROXY=http://127.0.0.1:8035
+ export HTTPS_PROXY=http://127.0.0.1:8035
+ export NODE_EXTRA_CA_CERTS=~/.mitmproxy/mitmproxy-ca-cert.pem
+ echo "run: mitmproxy -p 8035"
+}
+
+export HOMEASSISTANT_URL="https://home.vglafirov.com"
+
+export GRAFANA_URL="https://dashboards.gitlab.net"
 export OLLAMA_HOST=0.0.0.0
 
 function gtx() {
@@ -305,3 +342,8 @@ if [ -f '/Users/vglafirov/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/U
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/vglafirov/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/vglafirov/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+fpath=(~/.zsh/completions $fpath)
+autoload -U compinit && compinit
+
+# opencode
+export PATH=/Users/vglafirov/.opencode/bin:$PATH

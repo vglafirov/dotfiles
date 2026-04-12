@@ -1,25 +1,43 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "duo-chat-sonnet-4-5",
   "plugin": [
     "@vglafirov/opencode-gitlab-plugin",
     "@vglafirov/opencode-gitlab-auth",
     "opencode-skills",
   ],
+  "lsp": {
+    "terraform": {
+      "command": [
+        "terraform-ls",
+        "serve"
+      ],
+      "extensions": [
+        ".tf",
+        ".tfvars"
+      ],
+      "env": {},
+      "initialization": {}
+    }
+  },
   "mcp": {
     "grafana": {
       "type": "local",
       "command": [
-        "/Users/vglafirov/go/bin/mcp-grafana",
-        "--disable-write",
+        "docker",
+        "run",
+        "--rm",
+        "-i",
+        "-e",
+        "GRAFANA_URL",
+        "-e",
+        "GRAFANA_SERVICE_ACCOUNT_TOKEN",
+        "mcp/grafana",
         "-t",
         "stdio"
       ],
       "environment": {
         "GRAFANA_URL": "https://dashboards.gitlab.net"
-      },
-      "enabled": true,
-      "timeout": 10000
+      }
     },
     "gcloud": {
       "type": "local",
@@ -34,32 +52,15 @@
       "url": "http://localhost:27495/mcp/sse",
       "enabled": true
     },
-    "flux-operator-mcp": {
+    "terraform": {
       "type": "local",
       "command": [
-        "flux-operator-mcp",
-        "serve"
-      ],
-      "environment": {
-        "KUBECONFIG": "/Users/vglafirov/.kube/config",
-        "FLUX_MCP_IMPERSONATE_SA": "flux-reader",
-        "FLUX_MCP_IMPERSONATE_NS": "flux-system"
-      },
-      "enabled": true,
-      "timeout": 10000
-    },
-    "kubernetes": {
-      "type": "local",
-      "command": [
-        "npx",
-        "-y",
-        "kubernetes-mcp-server@latest"
-      ],
-      "environment": {
-        "KUBECONFIG": "/Users/vglafirov/.kube/config"
-      },
-      "enabled": true,
-      "timeout": 10000
+        "docker",
+        "run",
+        "-i",
+        "--rm",
+        "hashicorp/terraform-mcp-server:0.3.3"
+      ]
     }
   }
 }

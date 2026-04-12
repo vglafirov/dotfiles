@@ -221,6 +221,34 @@ gitlab_create_issue_note(
 
 Same pattern applies for epic discussions using `gitlab_list_epic_discussions`, `gitlab_get_epic_discussion`, and `gitlab_create_epic_note` with `discussion_id`.
 
+### Resolve and Manage Discussions
+
+Mark discussions as resolved after addressing feedback:
+
+```
+# Resolve an issue discussion
+gitlab_resolve_issue_discussion(
+  project_id: "<project>",
+  issue_iid: <issue_iid>,
+  discussion_id: "<discussion_id>"
+)
+
+# Reopen if more work needed
+gitlab_unresolve_issue_discussion(
+  project_id: "<project>",
+  issue_iid: <issue_iid>,
+  discussion_id: "<discussion_id>"
+)
+```
+
+**When to resolve:**
+- Feedback has been addressed
+- Question has been answered
+- Issue is no longer relevant
+- Agreement reached on approach
+
+**Best practice:** Let the discussion starter resolve their own threads when satisfied with the response.
+
 ### View All Comments
 
 List all comments chronologically:
@@ -233,12 +261,64 @@ gitlab_list_issue_notes(project_id: "<project>", issue_iid: <issue_iid>)
 gitlab_list_epic_notes(group_id: "<group>", epic_iid: <epic_iid>)
 ```
 
+### Get Specific Comments
+
+Retrieve a single note/comment by ID:
+
+```
+# Get specific issue note
+gitlab_get_issue_note(
+  project_id: "<project>",
+  issue_iid: <issue_iid>,
+  note_id: <note_id>
+)
+
+# Get specific epic note
+gitlab_get_epic_note(
+  group_id: "<group>",
+  epic_iid: <epic_iid>,
+  note_id: <note_id>
+)
+```
+
+Use this when you need details about a specific comment without fetching all notes.
+
 ## Confidentiality Rules
 
 Set `confidential: true` for:
 - Security vulnerabilities (`bug::vulnerability`)
 - Issues containing sensitive data
 - User-requested confidential issues
+
+## Finding Users and Milestones
+
+### Search for Users
+
+When assigning issues or epics, search for users:
+
+```
+gitlab_user_search(
+  search: "<name or email>",
+  limit: 10
+)
+```
+
+Returns users matching the search query with username, name, and ID for assignment.
+
+### Search for Milestones
+
+When assigning milestones to issues:
+
+```
+gitlab_milestone_search(
+  search: "<milestone name>",
+  project_id: "<project>",
+  state: "active",
+  limit: 10
+)
+```
+
+Returns milestones matching the search query with title, dates, and ID.
 
 ## Label Auto-Selection Guide
 
@@ -267,8 +347,11 @@ Based on content keywords, suggest labels:
 | `gitlab_issue_search` | Search for duplicates |
 | `gitlab_create_issue_note` | Add comment to issue (supports threaded replies via `discussion_id`) |
 | `gitlab_list_issue_notes` | List all comments on an issue chronologically |
+| `gitlab_get_issue_note` | Get single note/comment by ID |
 | `gitlab_list_issue_discussions` | List discussion threads on an issue |
 | `gitlab_get_issue_discussion` | Get specific discussion thread with all replies |
+| `gitlab_resolve_issue_discussion` | Mark discussion as resolved |
+| `gitlab_unresolve_issue_discussion` | Reopen resolved discussion |
 
 ### Epic Tools
 | Tool | Purpose |
@@ -282,8 +365,16 @@ Based on content keywords, suggest labels:
 | `gitlab_list_epic_issues` | Get all issues linked to an epic |
 | `gitlab_create_epic_note` | Add comment to epic (supports threaded replies via `discussion_id`) |
 | `gitlab_list_epic_notes` | List all comments on an epic chronologically |
+| `gitlab_get_epic_note` | Get single note/comment by ID |
 | `gitlab_list_epic_discussions` | List discussion threads on an epic |
 | `gitlab_get_epic_discussion` | Get specific epic discussion thread with all replies |
+
+### Search Tools
+| Tool | Purpose |
+|------|---------|
+| `gitlab_issue_search` | Search issues by keyword |
+| `gitlab_user_search` | Search for users to assign |
+| `gitlab_milestone_search` | Search for milestones |
 
 ### Project Tools
 | Tool | Purpose |

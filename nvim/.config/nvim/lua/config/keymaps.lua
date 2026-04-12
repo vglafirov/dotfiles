@@ -39,3 +39,6 @@ vim.keymap.set({ "n", "x" }, "<leader>od", function()
 end, { desc = "opencode half page down" })
 
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+vim.keymap.set("n", "<leader>O", "", { desc = "Obsidian" })
+vim.keymap.set("n", "<Leader>Os", "<cmd>Obsidian search<cr>", { desc = "Obsidian search", remap = true })
