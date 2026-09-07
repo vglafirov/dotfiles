@@ -127,13 +127,14 @@ alt-2 = 'workspace 2'
 alt-3 = 'workspace 3'
 alt-4 = 'workspace 4'
 alt-5 = 'workspace 5'
-alt-a = 'workspace A' # In your config, you can drop workspace bindings that you don't need
+alt-a = 'workspace A'      # In your config, you can drop workspace bindings that you don't need
 alt-p = 'workspace P'
 alt-s = 'workspace S'
 alt-o = 'workspace O'
 alt-n = 'workspace N'
 alt-t = 'workspace T'
 alt-z = 'workspace Z'
+alt-period = 'workspace 3'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = 'move-node-to-workspace 1'

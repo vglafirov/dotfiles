@@ -92,7 +92,7 @@ aws
 gcloud
 )
 
-ZSH_TMUX_AUTOSTART=true
+ZSH_TMUX_AUTOSTART=false
 ZSH_TMUX_AUTOCONNECT=true
 
 source $ZSH/oh-my-zsh.sh
@@ -130,6 +130,7 @@ alias kns="kubens"
 alias nx="nix-shell --run $SHELL"
 
 alias lg="lazygit"
+alias oc="opencode"
 
 ff () {
   aerospace list-windows --all | fzf --bind 'enter:execute(bash -c "aerospace focus --window-id {2}")+abort'
@@ -229,12 +230,26 @@ hotline(){
 }
 
 selfhosted() {
-  export GITLAB_AI_GATEWAY_URL=https://ai-gateway.opencode-self-hosted.release.gke.gitlab.net
-  export GITLAB_INSTANCE_URL=https://gitlab.opencode-self-hosted.release.gke.gitlab.net
-  export GITLAB_OAUTH_CLIENT_ID=aa66aa0ff367e0422a4b45f73754bef9605dddf519859a734e882f7ba2af0d3e
+  export GITLAB_INSTANCE_URL=https://gitlab.caproni.test
+  # This instance routes Duo through GitLab's STAGING AI gateway via Cloud
+  # Connector. The direct_access token is minted for the staging realm, so the
+  # provider must send model/proxy requests to the staging gateway. Without
+  # this it defaults to https://cloud.gitlab.com and fails with a connection
+  # error ("typo in the url or port?").
+  export GITLAB_AI_GATEWAY_URL=https://cloud.staging.gitlab.com
+  export NODE_EXTRA_CA_CERTS=/Users/vglafirov/.local/share/caproni/caproni/pki/ca.crt
+  export GITLAB_OAUTH_CLIENT_ID=d20e6bba067cb2b016a0d5998ec3534f0a8bea75a8624fb6513cc40fb0fabf1d
   eval "$(op signin --account my)"
   export GITLAB_TOKEN=$(op read "op://private/gitlab-api-token-self-hosted/credential")
 }
+
+staging() {
+  export GITLAB_INSTANCE_URL=https://staging.gitlab.com
+  export GITLAB_AI_GATEWAY_URL=https://cloud.staging.gitlab.com
+  eval "$(op signin --account my)"
+  export GITLAB_TOKEN=$(op read "op://private/gitlab-api-token-staging/credential")
+}
+
 
 staging() {
   export GITLAB_AI_GATEWAY_URL=https://cloud.staging.gitlab.com
@@ -347,3 +362,4 @@ autoload -U compinit && compinit
 
 # opencode
 export PATH=/Users/vglafirov/.opencode/bin:$PATH
+export OPENCODE_EXPERIMENTAL_WORKSPACES=true

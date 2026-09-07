@@ -19,3 +19,11 @@ copy-on-select = clipboard
 scrollback-limit = 10000000
 clipboard-read = allow
 clipboard-write = allow
+
+# herdr autostart
+# Only the FIRST Ghostty surface launches herdr; new tabs/windows get a plain
+# shell. Starting it here instead of from .zshrc avoids blocking shell startup
+# and avoids nested-launch errors in herdr panes (which source .zshrc too).
+# After detaching (prefix+q) the wrapper drops into a normal login shell
+# instead of closing the window; rerun `herdr` to reattach.
+initial-command = /bin/zsh -lc "herdr; exec /bin/zsh -l"
