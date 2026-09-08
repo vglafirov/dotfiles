@@ -1,3 +1,4 @@
+onboarding = false
 # herdr configuration
 # Place this file at ~/.config/herdr/config.toml
 
@@ -50,7 +51,7 @@ auto_switch = false
 channel = "stable"
 
 # Check herdr.dev for new Herdr versions in the background.
-# version_check = true
+version_check = true
 
 # Check herdr.dev for remote agent-detection manifest updates in the background.
 # manifest_check = true
@@ -72,10 +73,10 @@ prefix = "ctrl+a"
 # ---------------------------------------------------------------------------
 
 # Session / global
-help = "prefix+?"                          # tmux: prefix ? list-keys
-settings = "prefix+shift+c"                # tmux: prefix C customize-mode
-detach = ["prefix+q", "prefix+ctrl+d"]     # tmux: prefix ^D detach
-reload_config = "prefix+shift+r"           # tmux: prefix R source-file
+help = "prefix+?"                      # tmux: prefix ? list-keys
+settings = "prefix+shift+c"            # tmux: prefix C customize-mode
+detach = ["prefix+q", "prefix+ctrl+d"] # tmux: prefix ^D detach
+reload_config = "prefix+shift+r"       # tmux: prefix R source-file
 toggle_sidebar = "prefix+b"
 
 # Panes: focus (tmux: prefix h/j/k/l + arrows select-pane)
@@ -83,16 +84,16 @@ focus_pane_left = ["prefix+h", "prefix+left"]
 focus_pane_down = ["prefix+j", "prefix+down"]
 focus_pane_up = ["prefix+k", "prefix+up"]
 focus_pane_right = ["prefix+l", "prefix+right"]
-last_pane = "prefix+;"                     # tmux: prefix ; last-pane
+last_pane = "prefix+;"                          # tmux: prefix ; last-pane
 
 # Panes: splits (tmux: prefix | horizontal, prefix _ vertical, prefix % split-window -h)
 split_vertical = ["prefix+|", "prefix+%", "prefix+v"]
 split_horizontal = "prefix+_"
 
 # Panes: lifecycle (tmux: prefix x and prefix c both kill-pane)
-close_pane = ["prefix+x", "prefix+d"]      # tmux: prefix x kill-pane
-zoom = "prefix+z"                          # tmux: prefix z resize-pane -Z
-copy_mode = "prefix+["                     # tmux: prefix [ copy-mode
+close_pane = ["prefix+x", "prefix+d"] # tmux: prefix x kill-pane
+zoom = "prefix+z"                     # tmux: prefix z resize-pane -Z
+copy_mode = "prefix+["                # tmux: prefix [ copy-mode
 rename_pane = "prefix+shift+p"
 edit_scrollback = "prefix+e"
 
@@ -105,28 +106,41 @@ swap_pane_right = ""
 # Panes: resize. tmux binds these directly (no resize mode), so resize_mode is
 # unbound to free prefix+r for rename_tab (tmux: prefix r rename-window).
 resize_mode = ""
-resize_pane_left = "prefix+comma"           # tmux: prefix , resize-pane -L 20
-resize_pane_right = "prefix+."              # tmux: prefix . resize-pane -R 20
-resize_pane_down = "prefix+-"               # tmux: prefix - resize-pane -D 7
-resize_pane_up = "prefix+="                 # tmux: prefix = resize-pane -U 7
+resize_pane_left = "prefix+comma" # tmux: prefix , resize-pane -L 20
+resize_pane_right = "prefix+."    # tmux: prefix . resize-pane -R 20
+resize_pane_down = "prefix+-"     # tmux: prefix - resize-pane -D 7
+resize_pane_up = "prefix+="       # tmux: prefix = resize-pane -U 7
 
 # Tabs == tmux windows
-new_tab = ["prefix+c", "prefix+ctrl+c"]                     # tmux: prefix c / ^C new-window
-rename_tab = "prefix+r"                                     # tmux: prefix r rename-window
-close_tab = ["prefix+&", "prefix+shift+x"]                  # tmux: prefix & kill-window
-previous_tab = ["prefix+p", "prefix+ctrl+p", "prefix+shift+h"]  # tmux: p / ^P / H
-next_tab = ["prefix+n", "prefix+ctrl+n", "prefix+shift+l"]      # tmux: n / ^N / L
-switch_tab = "prefix+1..9"                                  # tmux: prefix 1..9 select-window
+new_tab = ["prefix+c", "prefix+ctrl+c"] # tmux: prefix c / ^C new-window
+rename_tab = "prefix+r" # tmux: prefix r rename-window
+close_tab = ["prefix+&", "prefix+shift+x"] # tmux: prefix & kill-window
+previous_tab = [
+  "prefix+p",
+  "prefix+ctrl+p",
+  "prefix+shift+h",
+] # tmux: p / ^P / H
+next_tab = ["prefix+n", "prefix+ctrl+n", "prefix+shift+l"] # tmux: n / ^N / L
+switch_tab = "prefix+1..9" # tmux: prefix 1..9 select-window
 
 # Workspaces == tmux/sesh sessions.
 # sesh/sessionx pickers (prefix T, prefix o, prefix s/S, prefix w/^W) all map
 # onto herdr's workspace picker, which is the closest equivalent.
-workspace_picker = ["prefix+s", "prefix+shift+s", "prefix+o", "prefix+w", "prefix+ctrl+w"]
+workspace_picker = [
+  "prefix+s",
+  "prefix+shift+s",
+  "prefix+o",
+  "prefix+w",
+  "prefix+ctrl+w",
+]
 new_workspace = "prefix+shift+n"
-rename_workspace = ["prefix+$", "prefix+shift+w"]           # tmux: prefix $ rename-session
+rename_workspace = [
+  "prefix+$",
+  "prefix+shift+w",
+] # tmux: prefix $ rename-session
 close_workspace = "prefix+shift+d"
-previous_workspace = "prefix+("                             # tmux: prefix ( switch-client -p
-next_workspace = "prefix+)"                                 # tmux: prefix ) switch-client -n
+previous_workspace = "prefix+(" # tmux: prefix ( switch-client -p
+next_workspace = "prefix+)" # tmux: prefix ) switch-client -n
 # Session navigator: searches/jumps across workspaces, tabs, and panes.
 # tmux 'prefix T' (sesh picker) maps here rather than to workspace_picker.
 goto = ["prefix+g", "prefix+shift+t"]
@@ -312,6 +326,7 @@ new_worktree = "prefix+shift+g"
 
 # Background notification popup delivery
 show_agent_labels_on_pane_borders = true
+agent_panel_sort = "priority"
 [ui.toast]
 # off = disable pop-up notifications
 # herdr = show in-app toasts
@@ -364,7 +379,7 @@ delivery = "system"
 # Requires a Kitty graphics-compatible outer terminal.
 # kitty_graphics = false
 # Save recent pane screen history across full server restarts.
-pane_history = false
+pane_history = true
 # While prefix mode is active, temporarily switch the host input source to
 # an ASCII-capable mode so prefix commands register even when an IME is
 # active, then restore the previous input source when prefix mode exits. On
