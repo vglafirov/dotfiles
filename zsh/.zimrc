@@ -1,0 +1,35 @@
+# Start configuration added by Zim install {{{
+#
+# Uncomment the following line to use degit instead of git as the default tool
+# to install and update modules.
+#zstyle ':zim:zmodule' use 'degit'
+# }}} End configuration added by Zim install
+
+# ---- Behaviour ----
+zmodule environment
+zmodule input
+zmodule termtitle
+zmodule utility
+zmodule completion
+
+# ---- oh-my-zsh plugin parity ----
+# Reuse the exact plugins/aliases/functions from the previous oh-my-zsh setup
+# by pulling individual plugin roots out of the ohmyzsh/ohmyzsh repo. One
+# clone is shared across all --root calls below.
+zmodule ohmyzsh/ohmyzsh --root plugins/git
+zmodule ohmyzsh/ohmyzsh --root plugins/kubectl
+zmodule ohmyzsh/ohmyzsh --root plugins/golang
+zmodule ohmyzsh/ohmyzsh --root plugins/docker
+zmodule ohmyzsh/ohmyzsh --root plugins/aws
+zmodule ohmyzsh/ohmyzsh --root plugins/gcloud
+zmodule ohmyzsh/ohmyzsh --root plugins/tmux
+
+# ---- Extra completions ----
+zmodule zsh-users/zsh-completions --fpath src
+
+# ---- Fish-like features (must be towards the bottom of .zimrc) ----
+zmodule zsh-users/zsh-autosuggestions
+zmodule zsh-users/zsh-syntax-highlighting
+
+# ---- Prompt theme (must be last) ----
+zmodule romkatv/powerlevel10k --use degit
