@@ -32,4 +32,8 @@ zmodule zsh-users/zsh-autosuggestions
 zmodule zsh-users/zsh-syntax-highlighting
 
 # ---- Prompt theme (must be last) ----
-zmodule romkatv/powerlevel10k --use degit
+zmodule git-info
+zmodule prompt-pwd
+# Kubernetes context/namespace; rendered as an agnoster segment in ~/.zshrc.
+zmodule jonmosco/kube-ps1 --source kube-ps1.sh
+zmodule agnoster
